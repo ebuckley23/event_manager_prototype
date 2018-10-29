@@ -34,7 +34,7 @@ class SignIn extends React.PureComponent {
 
     return (
       <div className={''} style={{paddingTop: '2em'}}>
-        <Typography align='center' component='h2' variant='h2'>Registrants</Typography>
+        <Typography align='center' component='h2' variant='h2'>{`Registrants ${registrants.length}`}</Typography>
         <Grid>
           <Input
             id='search_icon'

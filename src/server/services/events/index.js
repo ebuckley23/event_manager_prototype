@@ -84,7 +84,8 @@ class EventServices {
 
   async getEventRegistrants(id) {
     try {
-      const {attendees = []} = await eventbrite_api(`/events/51942733113/attendees`)
+      const dbEvent = await Event.findById(id);
+      const {attendees = []} = await eventbrite_api(`/events/${dbEvent.external_id}/attendees`)
       const {registrants = []} = await Event.findById(id).populate('registrants.registrant');
       const unsyncedAttendees = [];
       attendees.forEach(attendee => {
