@@ -1,0 +1,62 @@
+// .example-enter {
+//   opacity: 0.01;
+// }
+
+// .example-enter.example-enter-active {
+//   opacity: 1;
+//   transition: opacity 5000ms ease-in;
+// }
+
+// .example-leave {
+//   opacity: 1;
+// }
+
+// .example-leave.example-leave-active {
+//   opacity: 0.01;
+//   transition: opacity 300ms ease-in;
+// }
+
+.generateBtn-appear {
+  opacity: 0.01;
+}
+
+.generateBtn-appear.generateBtn-appear-active {
+  opacity: 1;
+  transition: opacity 1s ease-in;
+}
+
+.winnerField-appear {
+  opacity: 0.01;
+}
+
+.winnerField-appear.winnerField-appear-active {
+  opacity: 1;
+  transition: opacity 2s ease-in;
+}
+
+.winnerHistory-appear {
+  opacity: 0.01;
+}
+
+.winnerHistory-appear.winnerHistory-appear-active {
+  opacity: 1;
+  transition: opacity 2s ease-in;
+}
+
+.winnerField-enter {
+  opacity: 0.01;
+}
+
+.winnerField-enter.winnerField-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.winnerField-leave {
+  opacity: 1;
+}
+
+.winnerField-leave.winnerField-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}

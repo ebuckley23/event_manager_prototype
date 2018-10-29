@@ -1,0 +1,15 @@
+{
+  "plugins": [
+    "@babel/plugin-proposal-object-rest-spread",
+    ["syntax-dynamic-import"],
+    ["transform-class-properties"],
+  ],
+  "presets": [
+    ["@babel/env", {
+      "targets": {
+        "browsers": "last 2 Chrome versions"
+      }
+    }],
+    "@babel/react"
+  ]
+}
