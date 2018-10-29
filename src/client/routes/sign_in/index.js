@@ -14,7 +14,8 @@ import Modal from './modal';
 class SignIn extends React.PureComponent {
   state = {
     generateResults: false,
-    searchText: ''
+    searchText: '',
+    eventId: ''
   }
 
   handleClose() {
@@ -24,11 +25,12 @@ class SignIn extends React.PureComponent {
     const {match = {}, actions} = this.props;
     const {params = {}} = match;
     const {eventId = ''} = params;
+    this.setState({eventId})
     actions.getEventRegistrants(eventId);
   }
   render() {
-    const {events: eventsState} = this.props;
-    const {searchText} = this.state;
+    const {events: eventsState, actions} = this.props;
+    const {searchText, eventId} = this.state;
     const {award_creator, award_winner_email} = eventsState;
     const {registrants = []} = award_creator;
 
@@ -58,12 +60,12 @@ class SignIn extends React.PureComponent {
               const {registrant} = r;
               const {firstName, lastName} = registrant.name;
               return firstName.toLowerCase().includes(toLower) || lastName.toLowerCase().includes(toLower) || registrant.email.toLowerCase().includes(toLower);
-            }).map(r => {
+            }).map((r, index) => {
               const {registrant, signedIn} = r;
               const {firstName, lastName} = registrant.name || {};
-              const winner_color = 'mediumseagreen';
-              const default_color = 'lightblue';
-              const backgroundColor = award_winner_email === registrant.email ? winner_color : default_color;
+              const present_color = 'mediumseagreen';
+              const absent_color = 'lightblue';
+              const backgroundColor = signedIn ? present_color : absent_color;
               return (
                 <GridListTile key={registrant.email} cols={1}>
                   <ListItem key={registrant.email} role={undefined} style={{backgroundColor}} button>
@@ -71,13 +73,14 @@ class SignIn extends React.PureComponent {
                       color='primary'
                       checked={signedIn}
                       tabIndex={-1}
+                      onChange={() => actions.signInRegistrant(eventId, r._id, index)}
                     />
                     <ListItemText primary={`${lastName}, ${firstName}`} secondary={registrant.email} />
-                    <ListItemSecondaryAction>
+                    {/* <ListItemSecondaryAction>
                       <IconButton aria-label="Info">
                         <InfoIcon />
                       </IconButton>
-                    </ListItemSecondaryAction>
+                    </ListItemSecondaryAction> */}
                   </ListItem>
                 </GridListTile>
               )

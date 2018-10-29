@@ -67,7 +67,7 @@ class Events extends PureComponent {
                     title={evt.name.text}
                   />
                   <CardContent className={classes.description}>
-                    <Typography component='p'>{evt.description.text}</Typography>
+                    <Typography className={classes.text} component='p'>{evt.description.text}</Typography>
                   </CardContent>
                   <CardActions className={classes.actions} disableActionSpacing>
                     <Button size="small" color="primary" onClick={() => history.push(`/registration/${evt.id}`)}>
@@ -111,7 +111,16 @@ const styles = theme => ({
     backgroundColor: red[500],
   },
   description: {
-    height: '10%'
+    height: '10%',
+    // width: '100%',
+    // textOverflow: 'ellipsis'
+  },
+  text: {
+    width: '100%',
+    textOverflow: 'ellipsis',
+    height: '100%',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
   },
   header: {
     height: '15%'

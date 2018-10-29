@@ -20,6 +20,13 @@ router.get('/:id/registrant', async (req, res) => {
   res.json(ret);
 })
 
+router.put(`/:id/registrant/:registrantId/signIn`, async (req, res) => {
+  const id = req.params.id;
+  const registrantId = req.params.registrantId;
+  await eventsService.signInRegistrant(id, registrantId);
+  res.sendStatus(200);
+})
+
 router.get('/:id', async(req, res) => {
   const id = req.params.id;
   const ret = await eventsService.getEvent(id);

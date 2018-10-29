@@ -98,6 +98,7 @@ class EventServices {
         // if not found, set up to be saved
         if (index === -1) unsyncedAttendees.push({name: {firstName: first_name, lastName: last_name}, email});
       });
+
       // this is dumb. I shouldn't do this
       unsyncedAttendees.forEach(async unsyncedAttendee => {
         const {email} = unsyncedAttendee;
@@ -117,67 +118,24 @@ class EventServices {
           })
         }
       });
+
       return await Event.findById(id).populate('registrants.registrant');
     }
     catch (err) {console.log('err', err);}
   }
-}
 
-const dbMockEvents = {
-  'abc-afddlkj': {
-    id: 'abc-afddlkj',
-    name: 'Monthly Myxer',
-    description: 'Just a monthly myxer',
-    imgUrl: 'https://www.gettyimages.com/gi-resources/images/Embed/new/embed2.jpg',
-    organization: 'Pensacola Network of Black Professionals',
-    date: new Date().toDateString('MM/dd/YYYY'),
-    registrants: [{
-      firstName: 'Emmanuel',
-      lastName: 'Buckley',
-      email: 'ebuckley2389@gmail.com'
-    }, {
-      firstName: 'Buckley',
-      lastName: 'Emmanuel',
-      name: 'Buckley Emmanuel',
-      email: 'buckley.emmanuel@gmail.com'
-    }, {
-      firstName: 'Ebk',
-      lastName: 'Buckley',
-      name: 'Ebk Buckley',
-      email: 'fakeEmail@gmail.com'
-    }, {
-      firstName: 'Mock',
-      lastName: 'Child',
-      email: 'mock.child@email.com'
-    }, {
-      firstName: 'Buckley',
-      lastName: 'Emmanuel',
-      name: 'Buckley Emmanuel',
-      email: 'buckley.emmanuel@gmail.com'
-    }, {
-      firstName: 'Ebk',
-      lastName: 'Buckley',
-      name: 'Ebk Buckley',
-      email: 'fakeEmail@gmail.com'
-    }, {
-      firstName: 'Mock',
-      lastName: 'Child',
-      email: 'mock.child@email.com'
-    }]
-  },
-  'alfjaf': {
-    id: 'alfjaf',
-    name: 'Test Mixyer',
-    description: 'jalfja;f',
-    imgUrl: 'https://image.shutterstock.com/z/stock-photo-hands-holding-credit-card-and-using-laptop-online-shopping-289585190.jpg',
-    organization: 'Pensacola Network of Black Professionals',
-    date: new Date().toDateString('MM/dd/YYYY'),
-    registrants: [{
-      firstName: 'ABC',
-      lastName: 'FAke',
-      name: 'ABC FAke',
-      email: 'fake@fake.com'
-    }]
+  async signInRegistrant(id, registrantId) {
+    console.log('regsg', registrantId);
+    try {
+      const dbEvent = await Event.findById(id);
+      // do not do triple equal on ids here. Mongoose no like
+      const index = dbEvent.registrants.findIndex(x => x._id == registrantId);
+      const signedIn = dbEvent.registrants[index].signedIn;
+      await Event.updateOne({_id: id, 'registrants._id': registrantId}, {
+        $set: {'registrants.$.signedIn': !signedIn}
+      });
+    }
+    catch (err) {console.log('err', err);}
   }
 }
 

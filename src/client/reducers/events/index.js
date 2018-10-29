@@ -23,6 +23,18 @@ export default (state = getInitialState(), action) => {
     case actionTypes.TOGGLE_RESULT_DIALOG: {
       return {...state, resultToggled: !state.resultToggled}
     }
+    case `${actionTypes.SIGN_IN_REGISTRANT}_FULFILLED`: {
+      const {index} = action.meta;
+      return {
+        ...state,
+        award_creator: {
+          ...award_creator,
+          registrants: [
+            ...award_creator.registrants,
+          ]
+        }
+      }
+    }
     default: return state;
   }
 }
