@@ -23,7 +23,7 @@ class EventServices {
         }
       });
 
-      if (unsyncedEvents === 0) {
+      if (unsyncedEvents !== 0) {
         await Event.insertMany(unsyncedEvents.map(evt => ({name: evt.name.text, external_id: evt.id})));
         dbEvents = await Event.find({});
       }
