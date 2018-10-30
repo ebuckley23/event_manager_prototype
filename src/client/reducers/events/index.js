@@ -1,9 +1,11 @@
 import * as actionTypes from './actionTypes';
+import {immutArray, immutObject} from '../../utils/immutable_helper';
 const getInitialState = () => ({
   events: [],
   event: {},
   award_winner_email: '',
-  award_creator: {}
+  award_creator: {},
+  award_history: []
 });
 
 export default (state = getInitialState(), action) => {
@@ -25,15 +27,18 @@ export default (state = getInitialState(), action) => {
     }
     case `${actionTypes.SIGN_IN_REGISTRANT}_FULFILLED`: {
       const {index} = action.meta;
+      const updatedRegistrant = state.award_creator.registrants[index];
+        
       return {
         ...state,
         award_creator: {
-          ...award_creator,
-          registrants: [
-            ...award_creator.registrants,
-          ]
+          ...state.award_creator,
+          registrants: immutArray(state.award_creator.registrants).updateAt(index).value(immutObject(updatedRegistrant).update('signedIn', !updatedRegistrant.signedIn))
         }
-      }
+      };
+    }
+    case actionTypes.SET_WINNER_HISTORY: {
+      return {...state, award_history: [...state.award_history, action.payload]};
     }
     default: return state;
   }

@@ -45,6 +45,13 @@ export const signInRegistrant = (id, registrantId, index) => {
     payload: api(`/events/${id}/registrant/${registrantId}/signIn`, {
       method: 'PUT'
     })
-      .then(res => res.json())
+      .then(res => ({}))
+  }
+}
+
+export const setWinnerHistory = (registrant, item) => {
+  return {
+    type: actionTypes.SET_WINNER_HISTORY,
+    payload: {registrant, item}
   }
 }

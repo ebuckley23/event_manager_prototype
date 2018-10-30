@@ -10,7 +10,10 @@ import History from './history';
 import './ag.scss';
 class Award_Generator extends React.PureComponent {
   state = {
-    items: ['Ebuclkey', 'Ariea', 'Testing']
+    award_item: '',
+    counter: 0,
+    finding_winner: false,
+    winner: ''
   }
   componentDidMount() {
     const {match = {}, actions} = this.props;
@@ -18,9 +21,26 @@ class Award_Generator extends React.PureComponent {
     const {eventId = ''} = params;
     actions.getEventRegistrants(eventId);
   }
-  handleAdd = () => {
-    const newItems = this.state.items.concat([prompt('Enter some text')]);
-    this.setState({items: newItems});
+
+  handleStart = () => {
+    const awardItem = this.state.award_item || prompt('Enter prize');
+    if (awardItem) {
+      this.setState({award_item: awardItem, finding_winner: true});
+    }
+    else{
+      alert('no award specified');
+    }
+  }
+
+  handleStop = () => {
+    const {actions}= this.props;
+    this.setState({finding_winner: false})
+    actions.setWinnerHistory(this.state.winner, this.state.award_item);
+    this.setState({award_item: ''})
+  }
+
+  handleWinner = (winner) => {
+    this.setState({winner})
   }
   render() {
     const {events: eventsState} = this.props;
@@ -31,38 +51,42 @@ class Award_Generator extends React.PureComponent {
       const {registrant} = r;
       return acc.concat(registrant);
     }, []);
-    const items = this.state.items.map((item, i) => (
-      <div key={item}>
-        {item}
-      </div>
-    ))
     return (
       <div>
-        <button onClick={this.handleAdd}>Start</button>
         <CSSTransitionGroup
           transitionName="generateBtn"
           transitionAppear={true}
           transitionAppearTimeout={1000}
           transitionEnter={false}
           transitionLeave={false}>
-          <GenerateBtn />
+          <GenerateBtn
+            finding_winner={this.state.finding_winner}
+            onStart={this.handleStart}
+            onReset={this.handleStop}
+          />
         </CSSTransitionGroup>
-        <CSSTransitionGroup
+        {!!signedInRegistrants.length && <CSSTransitionGroup
           transitionName="winnerField"
           transitionAppear={true}
           transitionAppearTimeout={2000}
           transitionEnter={false}
           transitionLeave={false}
         >
-          <Winner />
-        </CSSTransitionGroup>
+          <Winner
+            winner={this.state.winner}
+            setWinner={this.handleWinner}
+            finding_winner={this.state.finding_winner}
+            registrants={signedInRegistrants}
+            award_item={this.state.award_item}
+          />
+        </CSSTransitionGroup>}
         <CSSTransitionGroup
           transitionName="winnerHistory"
           transitionAppear={true}
           transitionAppearTimeout={2000}
           transitionEnter={false}
           transitionLeave={false}>
-          <History />
+          <History award_history={this.props.award_history} />
         </CSSTransitionGroup>
       </div>
     )
@@ -70,7 +94,8 @@ class Award_Generator extends React.PureComponent {
 }
 
 const mapState = state => ({
-  events: state.events
+  events: state.events,
+  award_history: state.events.award_history
 });
 
 const mapActions = dispatch => ({
