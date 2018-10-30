@@ -26,7 +26,8 @@ export default (state = getInitialState(), action) => {
       return {...state, resultToggled: !state.resultToggled}
     }
     case `${actionTypes.SIGN_IN_REGISTRANT}_FULFILLED`: {
-      const {index} = action.meta;
+      const {registrantId} = action.meta;
+      const index = state.award_creator.registrants.findIndex(x => x._id == registrantId);
       const updatedRegistrant = state.award_creator.registrants[index];
         
       return {

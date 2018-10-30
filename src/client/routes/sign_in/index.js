@@ -9,7 +9,6 @@ import ListItem from '@material-ui/core/ListItem';
 import InfoIcon from '@material-ui/icons/Info';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
-import Modal from './modal';
 
 class SignIn extends React.PureComponent {
   state = {
@@ -87,7 +86,6 @@ class SignIn extends React.PureComponent {
             })}
           </GridList>
         </Paper>
-        <Modal isOpen={this.state.generateResults} onClose={() => this.handleClose()} />
       </div>
     )
   }

@@ -11,7 +11,7 @@ export default class Winner extends React.PureComponent {
   componentDidMount() {
     const {registrants} = this.props;
     this.setState({registrants});
-    const timer = setInterval(this.tick, 1000);
+    const timer = setInterval(this.tick, 250);
     this.setState({timer});
   }
   tick = () => {

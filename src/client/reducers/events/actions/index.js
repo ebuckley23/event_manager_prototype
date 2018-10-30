@@ -41,7 +41,7 @@ export const toggleResultDialog = () => {
 export const signInRegistrant = (id, registrantId, index) => {
   return {
     type: actionTypes.SIGN_IN_REGISTRANT,
-    meta: {index},
+    meta: {index, registrantId},
     payload: api(`/events/${id}/registrant/${registrantId}/signIn`, {
       method: 'PUT'
     })
