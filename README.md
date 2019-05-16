@@ -1,3 +1,7 @@
+# Demo
+
+https://ekb-event-management.herokuapp.com/ 
+
 # event_manager_prototype
 An event manager for managing organization events, registrations, etc.
 
